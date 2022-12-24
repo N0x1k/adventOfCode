@@ -18,23 +18,18 @@ def score(guide):
     return score
 
 
-def trans_guide(guide):
+def translate_guide(guide):
+    xyz = ["X", "Y", "Z"]
     for i in range(len(guide)):
+        my_strategy = guide[i].split(" ")[1]
         if "A" in guide[i]:
-            if "A X" == guide[i]:
-                guide[i] = "A Z"
-            elif "A Y" == guide[i]:
-                guide[i] = "A X"
-            elif "A Z" == guide[i]:
-                guide[i] = "A Y"
+            guide[i].replace(my_strategy, xyz[xyz.index(my_strategy) - 1])
         elif "C" in guide[i]:
-            if "C X" == guide[i]:
-                guide[i] = "C Y"
-            elif "C Y" == guide[i]:
-                guide[i] = "C Z"
-            elif "C Z" == guide[i]:
-                guide[i] = "C X"
-    return guide
+            if xyz.index(my_strategy) + 1 == len(xyz):
+                guide[i].replace(my_strategy, xyz[0])
+            else:
+                guide[i].replace(my_strategy, xyz[xyz.index(my_strategy) + 1])
 
 
-print(f"score is: {score(trans_guide(guide))}")
+translate_guide(guide)
+print(f"score is: {score(guide)}")
