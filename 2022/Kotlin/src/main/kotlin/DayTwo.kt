@@ -1,16 +1,9 @@
 import java.io.File
 
-// A, X - rock    [1]
-// B, Y - paper   [2]
-// C, Z - scissor [3]
-// loss           [0]
-// draw           [3]
-// win            [6]
-
-fun main(){
+fun score(inputs: MutableList<String>){
     var score = 0
 
-    File("./inputs/2-full.txt").forEachLine {
+    inputs.forEach {
         when {
             it.contains("X") -> score += 1
             it.contains("Y") -> score += 2
@@ -22,4 +15,37 @@ fun main(){
         }
     }
     println(score)
+}
+
+fun main(){
+    // part one
+    val inputs: MutableList<String> = mutableListOf()
+    File("./inputs/2-full.txt").forEachLine {
+        inputs.add(it)
+    }
+    score(inputs)
+
+    // part two
+    val resolvedInputs: MutableList<String> = mutableListOf()
+    inputs.forEach {
+        val (a,b) = Pair(it.substringBefore(" "), it.substringAfter(" "))
+        when (a) {
+            "A" -> {
+                when (b) {
+                    "X" -> resolvedInputs.add(it.replace(b, "Z"))
+                    "Y" -> resolvedInputs.add(it.replace(b, "X"))
+                    "Z" -> resolvedInputs.add(it.replace(b, "Y"))
+                }
+            }
+            "B" -> resolvedInputs.add(it)
+            "C" -> {
+                when (b) {
+                    "X" -> resolvedInputs.add(it.replace(b, "Y"))
+                    "Y" -> resolvedInputs.add(it.replace(b, "Z"))
+                    "Z" -> resolvedInputs.add(it.replace(b, "X"))
+                }
+            }
+        }
+    }
+    score(resolvedInputs)
 }
