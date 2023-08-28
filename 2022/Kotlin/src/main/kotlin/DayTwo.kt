@@ -6,32 +6,19 @@ import java.io.File
 // loss           [0]
 // draw           [3]
 // win            [6]
+
 fun main(){
     var score = 0
+
     File("./inputs/2-full.txt").forEachLine {
-        val (a, b) = Pair(it.substringBefore(" "), it.substringAfter(" "))
-        when (a) {
-            "A" -> {
-                when (b) {
-                    "X" -> { score += 4 }
-                    "Y" -> { score += 8 }
-                    "Z" -> { score += 3 }
-                }
-            }
-            "B" -> {
-                when (b) {
-                    "Y" -> { score += 5 }
-                    "Z" -> { score += 9 }
-                    "X" -> { score += 1 }
-                }
-            }
-            "C" -> {
-                when (b) {
-                    "Z" -> { score += 6 }
-                    "X" -> { score += 7 }
-                    "Y" -> { score += 2 }
-                }
-            }
+        when {
+            it.contains("X") -> score += 1
+            it.contains("Y") -> score += 2
+            it.contains("Z") -> score += 3
+        }
+        when {
+            it.contains(Regex("A X|B Y|C Z")) -> score += 3
+            it.contains(Regex("A Y|B Z|C X")) -> score += 6
         }
     }
     println(score)
